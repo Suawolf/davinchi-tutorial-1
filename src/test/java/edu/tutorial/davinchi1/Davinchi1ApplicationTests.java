@@ -1,10 +1,10 @@
-package com.example.davinchitutorial1;
+package edu.tutorial.davinchi1;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DavinchiTutorial1ApplicationTests {
+class Davinchi1ApplicationTests {
 
     @Test
     void contextLoads() {
