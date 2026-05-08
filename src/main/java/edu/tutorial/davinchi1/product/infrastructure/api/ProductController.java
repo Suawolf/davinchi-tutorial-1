@@ -1,39 +1,22 @@
 package edu.tutorial.davinchi1.product.infrastructure.api;
 
+import edu.tutorial.davinchi1.common.mediator.Mediator;
+import edu.tutorial.davinchi1.product.application.ProductCreateRequest;
 import edu.tutorial.davinchi1.product.domain.Product;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/products")
+@RequiredArgsConstructor
 public class ProductController implements ProductApi {
 
-    List<Product> products;
-
-    public ProductController() {
-        this.products = new ArrayList<>();
-        products.add(Product.builder()
-                .id(1L)
-                .name("Product 1")
-                .description("Description 1")
-                .price(100.0)
-                .image("image1")
-                .build()
-        );
-        products.add(Product.builder()
-                .id(2L)
-                .name("Product 2")
-                .description("Description 2")
-                .price(200.0)
-                .image("image2")
-                .build()
-        );
-    }
+    private Mediator mediator;
 
     //  {{BASE URL}} = http://localhost:8080/api/v1
     //  {{BASE URL}}/products?pageSize=5
@@ -57,7 +40,7 @@ public class ProductController implements ProductApi {
     //  {{BASE URL}}/products {JSON: BODY}
     @PostMapping("")
     public ResponseEntity<Void> saveProduct(@RequestBody Product product) {
-        products.add(product);
+        mediator.dispatch(new ProductCreateRequest(product.getId(), product.getName(), product.getDescription(), product.getPrice(), product.getImage()));
         return ResponseEntity.created(URI.create("/api/v1/products/".concat(product.getId().toString()))).build();
     }
 
