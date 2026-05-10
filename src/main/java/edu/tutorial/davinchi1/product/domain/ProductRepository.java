@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public interface ProductRepository {
 
-    void update(Product product);
+    void upsert(Product product);
 
     Optional<Product> findById(Long id);
 

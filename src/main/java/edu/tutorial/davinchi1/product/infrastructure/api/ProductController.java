@@ -1,67 +1,59 @@
 package edu.tutorial.davinchi1.product.infrastructure.api;
 
 import edu.tutorial.davinchi1.common.mediator.Mediator;
-import edu.tutorial.davinchi1.product.application.ProductCreateRequest;
-import edu.tutorial.davinchi1.product.domain.Product;
+import edu.tutorial.davinchi1.product.application.command.create.CreateProductRequest;
+import edu.tutorial.davinchi1.product.application.query.getById.GetProductByIdRequest;
+import edu.tutorial.davinchi1.product.application.query.getById.GetProductByIdResponse;
+import edu.tutorial.davinchi1.product.infrastructure.api.dto.ProductDto;
+import edu.tutorial.davinchi1.product.infrastructure.api.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
 public class ProductController implements ProductApi {
 
-    private Mediator mediator;
+    private final Mediator mediator;
+
+    private final ProductMapper productMapper;
 
     //  {{BASE URL}} = http://localhost:8080/api/v1
     //  {{BASE URL}}/products?pageSize=5
     @GetMapping("")
-    public ResponseEntity<List<Product>> getAllProducts(@RequestParam(required = false) String pageSize) {
-        return ResponseEntity.ok(products);
+    public ResponseEntity<List<ProductDto>> getAllProducts(@RequestParam(required = false) String pageSize) {
+        return ResponseEntity.ok(null);
     }
 
     //  {{BASE URL}}/products/1
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
-        Optional<Product> productOptional = products.stream()
-                .filter(p -> p.getId().equals(id))
-                .findFirst();
-
-        return productOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-
+    public ResponseEntity<ProductDto> getProductById(@PathVariable Long id) {
+        GetProductByIdResponse response = mediator.dispatch(new GetProductByIdRequest(id));
+        ProductDto productDto = productMapper.mapToProduct(response.getProduct());
+        return ResponseEntity.ok(productDto);
     }
-
 
     //  {{BASE URL}}/products {JSON: BODY}
     @PostMapping("")
-    public ResponseEntity<Void> saveProduct(@RequestBody Product product) {
-        mediator.dispatch(new ProductCreateRequest(product.getId(), product.getName(), product.getDescription(), product.getPrice(), product.getImage()));
-        return ResponseEntity.created(URI.create("/api/v1/products/".concat(product.getId().toString()))).build();
+    public ResponseEntity<Void> saveProduct(@RequestBody ProductDto productDto) {
+        CreateProductRequest createProductRequest = productMapper.mapToCreateProductRequest(productDto);
+        mediator.dispatch(createProductRequest);
+        return ResponseEntity.created(URI.create("/api/v1/products/".concat(productDto.getId().toString()))).build();
     }
 
     @PutMapping("")
-    public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
-        Product selectedProduct = products.stream()
-                .filter(p -> p.getId().equals(product.getId()))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Product not found"));
-
-        selectedProduct.setName(product.getName());
-        selectedProduct.setDescription(product.getDescription());
-        selectedProduct.setPrice(product.getPrice());
-        selectedProduct.setImage(product.getImage());
-
-        return ResponseEntity.ok(product);
+    public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto productDto) {
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-        products.removeIf(p -> p.getId().equals(id));
         return ResponseEntity.noContent().build();
     }
 
