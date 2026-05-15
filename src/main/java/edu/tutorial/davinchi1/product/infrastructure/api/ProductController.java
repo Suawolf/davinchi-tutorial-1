@@ -2,6 +2,10 @@ package edu.tutorial.davinchi1.product.infrastructure.api;
 
 import edu.tutorial.davinchi1.common.mediator.Mediator;
 import edu.tutorial.davinchi1.product.application.command.create.CreateProductRequest;
+import edu.tutorial.davinchi1.product.application.command.delete.DeleteProductRequest;
+import edu.tutorial.davinchi1.product.application.command.update.UpdateProductRequest;
+import edu.tutorial.davinchi1.product.application.query.getAll.GetAllProductRequest;
+import edu.tutorial.davinchi1.product.application.query.getAll.GetAllProductResponse;
 import edu.tutorial.davinchi1.product.application.query.getById.GetProductByIdRequest;
 import edu.tutorial.davinchi1.product.application.query.getById.GetProductByIdResponse;
 import edu.tutorial.davinchi1.product.infrastructure.api.dto.ProductDto;
@@ -28,7 +32,9 @@ public class ProductController implements ProductApi {
     //  {{BASE URL}}/products?pageSize=5
     @GetMapping("")
     public ResponseEntity<List<ProductDto>> getAllProducts(@RequestParam(required = false) String pageSize) {
-        return ResponseEntity.ok(null);
+        GetAllProductResponse response = mediator.dispatch(new GetAllProductRequest());
+        List<ProductDto> productDtos = response.getProducts().stream().map(productMapper::mapToProduct).toList();
+        return ResponseEntity.ok(productDtos);
     }
 
     //  {{BASE URL}}/products/1
@@ -49,11 +55,14 @@ public class ProductController implements ProductApi {
 
     @PutMapping("")
     public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto productDto) {
+        UpdateProductRequest request = productMapper.mapToUpdateProductRequest(productDto);
+        mediator.dispatch(request);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+        mediator.dispatch(new DeleteProductRequest(id));
         return ResponseEntity.noContent().build();
     }
 

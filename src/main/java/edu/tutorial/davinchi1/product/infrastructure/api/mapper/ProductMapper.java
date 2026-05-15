@@ -1,6 +1,7 @@
 package edu.tutorial.davinchi1.product.infrastructure.api.mapper;
 
 import edu.tutorial.davinchi1.product.application.command.create.CreateProductRequest;
+import edu.tutorial.davinchi1.product.application.command.update.UpdateProductRequest;
 import edu.tutorial.davinchi1.product.domain.Product;
 import edu.tutorial.davinchi1.product.infrastructure.api.dto.ProductDto;
 import org.mapstruct.Mapper;
@@ -12,6 +13,8 @@ import org.mapstruct.ReportingPolicy;
 public interface ProductMapper {
 
     CreateProductRequest mapToCreateProductRequest(ProductDto productDto);
+
+    UpdateProductRequest mapToUpdateProductRequest(ProductDto productDto);
 
     ProductDto mapToProduct(Product product);
 }
