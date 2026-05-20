@@ -1,6 +1,6 @@
 package edu.tutorial.davinchi1.product.application.query.getAll;
 
-import edu.tutorial.davinchi1.product.domain.Product;
+import edu.tutorial.davinchi1.product.domain.entity.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

@@ -1,7 +1,7 @@
 package edu.tutorial.davinchi1.product.infrastructure.database;
 
-import edu.tutorial.davinchi1.product.domain.Product;
-import edu.tutorial.davinchi1.product.domain.ProductRepository;
+import edu.tutorial.davinchi1.product.domain.entity.Product;
+import edu.tutorial.davinchi1.product.domain.port.ProductRepository;
 import edu.tutorial.davinchi1.product.infrastructure.database.entity.ProductEntity;
 import edu.tutorial.davinchi1.product.infrastructure.database.mapper.ProductEntityMapper;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
 package edu.tutorial.davinchi1.product.application.command.delete;
 
 import edu.tutorial.davinchi1.common.mediator.RequestHandler;
-import edu.tutorial.davinchi1.product.domain.ProductRepository;
+import edu.tutorial.davinchi1.product.domain.port.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package edu.tutorial.davinchi1.product.domain;
+package edu.tutorial.davinchi1.product.domain.entity;
 
 
 import lombok.AllArgsConstructor;

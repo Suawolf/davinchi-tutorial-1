@@ -1,4 +1,6 @@
-package edu.tutorial.davinchi1.product.domain;
+package edu.tutorial.davinchi1.product.domain.port;
+
+import edu.tutorial.davinchi1.product.domain.entity.Product;
 
 import java.util.List;
 import java.util.Optional;

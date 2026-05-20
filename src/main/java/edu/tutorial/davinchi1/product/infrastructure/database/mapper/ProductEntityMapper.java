@@ -1,6 +1,6 @@
 package edu.tutorial.davinchi1.product.infrastructure.database.mapper;
 
-import edu.tutorial.davinchi1.product.domain.Product;
+import edu.tutorial.davinchi1.product.domain.entity.Product;
 import edu.tutorial.davinchi1.product.infrastructure.database.entity.ProductEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
