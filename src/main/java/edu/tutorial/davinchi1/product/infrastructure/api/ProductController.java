@@ -8,7 +8,9 @@ import edu.tutorial.davinchi1.product.application.query.getAll.GetAllProductRequ
 import edu.tutorial.davinchi1.product.application.query.getAll.GetAllProductResponse;
 import edu.tutorial.davinchi1.product.application.query.getById.GetProductByIdRequest;
 import edu.tutorial.davinchi1.product.application.query.getById.GetProductByIdResponse;
+import edu.tutorial.davinchi1.product.infrastructure.api.dto.CreateProductDto;
 import edu.tutorial.davinchi1.product.infrastructure.api.dto.ProductDto;
+import edu.tutorial.davinchi1.product.infrastructure.api.dto.UpdateProductDto;
 import edu.tutorial.davinchi1.product.infrastructure.api.mapper.ProductMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -48,14 +50,14 @@ public class ProductController implements ProductApi {
 
     //  {{BASE URL}}/products {JSON: BODY}
     @PostMapping("")
-    public ResponseEntity<Void> saveProduct(@RequestBody @Valid ProductDto productDto) {
+    public ResponseEntity<Void> saveProduct(@ModelAttribute @Valid CreateProductDto productDto) {
         CreateProductRequest createProductRequest = productMapper.mapToCreateProductRequest(productDto);
         mediator.dispatch(createProductRequest);
         return ResponseEntity.created(URI.create("/api/v1/products/".concat(productDto.getId().toString()))).build();
     }
 
     @PutMapping("")
-    public ResponseEntity<ProductDto> updateProduct(@RequestBody @Valid ProductDto productDto) {
+    public ResponseEntity<ProductDto> updateProduct(@ModelAttribute @Valid UpdateProductDto productDto) {
         UpdateProductRequest request = productMapper.mapToUpdateProductRequest(productDto);
         mediator.dispatch(request);
         return ResponseEntity.noContent().build();
