@@ -21,10 +21,10 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 
-@Slf4j
 @RestController
 @RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
+@Slf4j
 public class ProductController implements ProductApi {
 
     private final Mediator mediator;
@@ -35,37 +35,68 @@ public class ProductController implements ProductApi {
     //  {{BASE URL}}/products?pageSize=5
     @GetMapping("")
     public ResponseEntity<List<ProductDto>> getAllProducts(@RequestParam(required = false) String pageSize) {
+
+        log.info("Getting all products...");
+
         GetAllProductResponse response = mediator.dispatch(new GetAllProductRequest());
+
         List<ProductDto> productDtos = response.getProducts().stream().map(productMapper::mapToProduct).toList();
+
+        log.info("A total of {} products found!", productDtos.size());
+
         return ResponseEntity.ok(productDtos);
     }
 
     //  {{BASE URL}}/products/1
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getProductById(@PathVariable Long id) {
+
+        log.info("Getting product with ID: {} ...", id);
+
         GetProductByIdResponse response = mediator.dispatch(new GetProductByIdRequest(id));
         ProductDto productDto = productMapper.mapToProduct(response.getProduct());
+
+        log.info("Product with ID: {} found!", productDto.getId());
+
         return ResponseEntity.ok(productDto);
     }
 
     //  {{BASE URL}}/products {JSON: BODY}
     @PostMapping("")
     public ResponseEntity<Void> saveProduct(@ModelAttribute @Valid CreateProductDto productDto) {
+
+        log.info("Saving product with ID: {} ...", productDto.getId());
+
         CreateProductRequest createProductRequest = productMapper.mapToCreateProductRequest(productDto);
         mediator.dispatch(createProductRequest);
+
+        log.info("Product with ID: {} has been saved!", productDto.getId());
+
         return ResponseEntity.created(URI.create("/api/v1/products/".concat(productDto.getId().toString()))).build();
     }
 
     @PutMapping("")
     public ResponseEntity<ProductDto> updateProduct(@ModelAttribute @Valid UpdateProductDto productDto) {
+
+        log.info("Updating product with ID: {} ...", productDto.getId());
+
         UpdateProductRequest request = productMapper.mapToUpdateProductRequest(productDto);
         mediator.dispatch(request);
+
+        log.info("Product with ID: {} has been updated!", productDto.getId());
+
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+
+        log.info("Deleting product with ID: {} ...", id);
+
         mediator.dispatchAsync(new DeleteProductRequest(id));
+
+        log.info("Product with ID: {} has been deleted!", id);
+
         return ResponseEntity.noContent().build();
     }
 

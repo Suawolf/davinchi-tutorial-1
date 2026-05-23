@@ -16,16 +16,12 @@ public class DeleteProductHandler implements RequestHandler<DeleteProductRequest
     @Override
     public Void handle(DeleteProductRequest request) {
 
-        log.info("Deleting product with id: {} ...", request.getId());
-
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
         productRepository.deleteById(request.getId());
-
-        log.info("Product with id: {} deleted!", request.getId());
 
         return null;
     }
