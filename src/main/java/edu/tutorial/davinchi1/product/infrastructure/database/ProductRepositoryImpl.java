@@ -6,6 +6,7 @@ import edu.tutorial.davinchi1.product.infrastructure.database.entity.ProductEnti
 import edu.tutorial.davinchi1.product.infrastructure.database.mapper.ProductEntityMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
@@ -46,6 +47,7 @@ public class ProductRepositoryImpl implements ProductRepository {
                 .toList();
     }
 
+    @CacheEvict(value = "products", key = "#id")
     @Override
     public void deleteById(Long id) {
         products.removeIf(p -> p.getId().equals(id));
