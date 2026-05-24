@@ -5,6 +5,8 @@ import edu.tutorial.davinchi1.product.domain.port.ProductRepository;
 import edu.tutorial.davinchi1.product.infrastructure.database.entity.ProductEntity;
 import edu.tutorial.davinchi1.product.infrastructure.database.mapper.ProductEntityMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class ProductRepositoryImpl implements ProductRepository {
 
     private final List<ProductEntity> products = new ArrayList<>();
@@ -26,8 +29,10 @@ public class ProductRepositoryImpl implements ProductRepository {
         products.add(productEntity);
     }
 
+    @Cacheable(value = "products", key = "#id")
     @Override
     public Optional<Product> findById(Long id) {
+        log.info("Finding product with id {}", id);
         return products.stream()
                 .filter(p -> p.getId().equals(id))
                 .findFirst()

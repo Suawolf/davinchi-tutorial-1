@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -13,11 +15,13 @@ public class FixProductsPriceSchedule {
 
     private final ProductRepository productRepository;
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 60000)
     public void fixProductsPrice(){
         log.info("Fixing products price ...");
         productRepository.findAll().forEach(product -> {
-            product.setPrice(product.getPrice() * 1.1);
+            BigDecimal price = BigDecimal.valueOf(product.getPrice());
+            BigDecimal factor = new BigDecimal("1.1");
+            product.setPrice(price.multiply(factor).doubleValue());
             productRepository.upsert(product);
         });
 
