@@ -18,6 +18,7 @@ public class GetAllProductHandler implements RequestHandler<GetAllProductRequest
     public GetAllProductResponse handle(GetAllProductRequest request) {
 
         List<Product> products = productRepository.findAll();
+
         return new GetAllProductResponse(products);
     }
 

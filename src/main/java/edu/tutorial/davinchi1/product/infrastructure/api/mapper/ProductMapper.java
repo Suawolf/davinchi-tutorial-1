@@ -18,5 +18,5 @@ public interface ProductMapper {
 
     UpdateProductRequest mapToUpdateProductRequest(UpdateProductDto updateProductDto);
 
-    ProductDto mapToProduct(Product product);
+    ProductDto mapToProductDto(Product product);
 }

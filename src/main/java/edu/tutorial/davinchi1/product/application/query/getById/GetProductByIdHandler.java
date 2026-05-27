@@ -17,6 +17,7 @@ public class GetProductByIdHandler implements RequestHandler<GetProductByIdReque
     public GetProductByIdResponse handle(GetProductByIdRequest request) {
 
         Product product = productRepository.findById(request.getId()).orElseThrow(() -> new ProductNotFoundException(request.getId()));
+
         return new GetProductByIdResponse(product);
     }
 
