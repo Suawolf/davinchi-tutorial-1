@@ -12,3 +12,7 @@ logging:
   level:
     edu:
       tutorial: DEBUG
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
