@@ -2,4 +2,4 @@ spring:
   application:
     name: davinchi-tutorial-1
   profiles:
-    active: ${PROFILE}
+    active: test
