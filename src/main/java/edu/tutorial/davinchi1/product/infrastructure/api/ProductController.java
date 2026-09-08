@@ -2,12 +2,14 @@ package edu.tutorial.davinchi1.product.infrastructure.api;
 
 import edu.tutorial.davinchi1.common.mediator.Mediator;
 import edu.tutorial.davinchi1.product.application.command.create.CreateProductRequest;
+import edu.tutorial.davinchi1.product.application.command.create.CreateProductResponse;
 import edu.tutorial.davinchi1.product.application.command.delete.DeleteProductRequest;
 import edu.tutorial.davinchi1.product.application.command.update.UpdateProductRequest;
 import edu.tutorial.davinchi1.product.application.query.getAll.GetAllProductRequest;
 import edu.tutorial.davinchi1.product.application.query.getAll.GetAllProductResponse;
 import edu.tutorial.davinchi1.product.application.query.getById.GetProductByIdRequest;
 import edu.tutorial.davinchi1.product.application.query.getById.GetProductByIdResponse;
+import edu.tutorial.davinchi1.product.domain.entity.Product;
 import edu.tutorial.davinchi1.product.infrastructure.api.dto.CreateProductDto;
 import edu.tutorial.davinchi1.product.infrastructure.api.dto.ProductDto;
 import edu.tutorial.davinchi1.product.infrastructure.api.dto.UpdateProductDto;
@@ -71,14 +73,15 @@ public class ProductController implements ProductApi {
     @PostMapping("")
     public ResponseEntity<Void> saveProduct(@ModelAttribute @Valid CreateProductDto productDto) {
 
-        log.info("Saving product with ID: {} ...", productDto.getId());
+        log.info("Saving product");
 
-        CreateProductRequest createProductRequest = productMapper.mapToCreateProductRequest(productDto);
-        mediator.dispatch(createProductRequest);
+        CreateProductRequest request = productMapper.mapToCreateProductRequest(productDto);
+        CreateProductResponse response =  mediator.dispatch(request);
+        Product product = response.getProduct();
 
-        log.info("Product with ID: {} has been saved!", productDto.getId());
+        log.info("Product with ID: {} has been saved!", product.getId());
 
-        return ResponseEntity.created(URI.create("/api/v1/products/".concat(productDto.getId().toString()))).build();
+        return ResponseEntity.created(URI.create("/api/v1/products/".concat(product.getId().toString()))).build();
     }
 
     @Operation(summary = "Update product", description = "Update product")

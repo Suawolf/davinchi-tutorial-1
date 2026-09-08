@@ -15,7 +15,7 @@ public class FixProductsPriceSchedule {
 
     private final ProductRepository productRepository;
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 600000)
     public void fixProductsPrice(){
         log.info("Fixing products price ...");
         productRepository.findAll().forEach(product -> {

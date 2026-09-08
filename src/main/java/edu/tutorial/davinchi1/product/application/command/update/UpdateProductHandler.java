@@ -5,10 +5,12 @@ import edu.tutorial.davinchi1.common.util.FileUtils;
 import edu.tutorial.davinchi1.product.domain.entity.Product;
 import edu.tutorial.davinchi1.product.domain.port.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UpdateProductHandler implements RequestHandler<UpdateProductRequest, Void> {
 
     private final ProductRepository productRepository;
@@ -28,6 +30,8 @@ public class UpdateProductHandler implements RequestHandler<UpdateProductRequest
                 .build();
 
         productRepository.upsert(product);
+
+        log.info("Updated product with id {}", request.getId());
         return null;
     }
 

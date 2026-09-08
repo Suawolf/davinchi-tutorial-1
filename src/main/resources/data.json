@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Teclado Numérico Inalámbrico",
+    "description": "Teclado numérico compacto con conexión Bluetooth y batería recargable.",
+    "image": "0a11-teclado-numerico.jpg",
+    "price": 19.99
+  },
+  {
+    "name": "Soporte Ajustable para Monitor",
+    "description": "Brazo articulado para monitores de 17 a 32 pulgadas con gestión de cables.",
+    "image": "0a12-soporte-monitor.jpg",
+    "price": 35.50
+  },
+  {
+    "name": "Alfombrilla Gaming XL",
+    "description": "Mousepad de tela bordada con superficie deslizante y base antideslizante.",
+    "image": "0a13-mousepad-xl.jpg",
+    "price": 15.99
+  },
+  {
+    "name": "Camara Web 2K Pro",
+    "description": "Cámara web con resolución 2K, cubierta de privacidad e iluminación anillo LED.",
+    "image": "0a14-webcam-2k.jpg",
+    "price": 54.90
+  },
+  {
+    "name": "Lámpara de Escritorio LED",
+    "description": "Lámpara con regulador de brillo, control táctil y puerto de carga USB.",
+    "image": "0a15-lampara-led.jpg",
+    "price": 28.00
+  },
+  {
+    "name": "Disco Duro Externo 2TB",
+    "description": "Unidad de almacenamiento portátil USB 3.0 compatible con PC y consola.",
+    "image": "0a16-disco-externo.jpg",
+    "price": 64.99
+  },
+  {
+    "name": "Barra de Sonido PC",
+    "description": "Barra de sonido compacta con efectos de iluminación RGB y entrada de 3.5mm.",
+    "image": "0a17-barra-sonido.jpg",
+    "price": 42.50
+  },
+  {
+    "name": "Lector de Tarjetas SD/TF",
+    "description": "Adaptador multi-lector OTG USB-C y USB-A de alta velocidad.",
+    "image": "0a18-lector-tarjetas.jpg",
+    "price": 12.99
+  },
+  {
+    "name": "Reposamuñecas Ergonómico",
+    "description": "Almohadilla de espuma viscoelástica para teclado y ratón.",
+    "image": "0a19-reposamunecas.jpg",
+    "price": 18.50
+  },
+  {
+    "name": "Capturadora de Video 4K",
+    "description": "Dispositivo de captura HDMI a USB 3.0 para streaming y grabación.",
+    "image": "0a20-capturadora.jpg",
+    "price": 45.00
+  }
+]
