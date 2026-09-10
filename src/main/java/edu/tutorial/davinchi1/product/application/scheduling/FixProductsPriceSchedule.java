@@ -15,17 +15,17 @@ public class FixProductsPriceSchedule {
 
     private final ProductRepository productRepository;
 
-    @Scheduled(fixedRate = 600000)
-    public void fixProductsPrice(){
-        log.info("Fixing products price ...");
-        productRepository.findAll().forEach(product -> {
-            BigDecimal price = BigDecimal.valueOf(product.getPrice());
-            BigDecimal factor = new BigDecimal("1.1");
-            product.setPrice(price.multiply(factor).doubleValue());
-            productRepository.upsert(product);
-        });
-
-        log.info("Fixed products price completed!");
-
-    }
+//    @Scheduled(fixedRate = 600000)
+//    public void fixProductsPrice(){
+//        log.info("Fixing products price ...");
+//        productRepository.findAll().forEach(product -> {
+//            BigDecimal price = BigDecimal.valueOf(product.getPrice());
+//            BigDecimal factor = new BigDecimal("1.1");
+//            product.setPrice(price.multiply(factor).doubleValue());
+//            productRepository.upsert(product);
+//        });
+//
+//        log.info("Fixed products price completed!");
+//
+//    }
 }

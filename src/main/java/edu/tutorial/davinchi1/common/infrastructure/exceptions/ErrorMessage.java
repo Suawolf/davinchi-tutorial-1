@@ -1,4 +1,4 @@
-package edu.tutorial.davinchi1.common.exceptions;
+package edu.tutorial.davinchi1.common.infrastructure.exceptions;
 
 import lombok.Data;
 

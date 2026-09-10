@@ -1,4 +1,4 @@
-package edu.tutorial.davinchi1.common.util;
+package edu.tutorial.davinchi1.common.infrastructure.util;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;

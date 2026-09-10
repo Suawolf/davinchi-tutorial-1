@@ -1,5 +1,6 @@
 package edu.tutorial.davinchi1.product.application.query.getAll;
 
+import edu.tutorial.davinchi1.common.domain.PaginationResult;
 import edu.tutorial.davinchi1.common.mediator.RequestHandler;
 import edu.tutorial.davinchi1.product.domain.entity.Product;
 import edu.tutorial.davinchi1.product.domain.port.ProductRepository;
@@ -17,7 +18,7 @@ public class GetAllProductHandler implements RequestHandler<GetAllProductRequest
     @Override
     public GetAllProductResponse handle(GetAllProductRequest request) {
 
-        List<Product> products = productRepository.findAll();
+        PaginationResult<Product> products = productRepository.findAll(request.getPaginationQuery());
 
         return new GetAllProductResponse(products);
     }

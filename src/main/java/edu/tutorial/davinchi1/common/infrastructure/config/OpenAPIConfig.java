@@ -1,4 +1,4 @@
-package edu.tutorial.davinchi1.common.config;
+package edu.tutorial.davinchi1.common.infrastructure.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;

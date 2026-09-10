@@ -1,5 +1,6 @@
 package edu.tutorial.davinchi1.product.application.query.getAll;
 
+import edu.tutorial.davinchi1.common.domain.PaginationQuery;
 import edu.tutorial.davinchi1.common.mediator.Request;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,4 +9,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class GetAllProductRequest implements Request<GetAllProductResponse> {
 
+    PaginationQuery paginationQuery;
 }

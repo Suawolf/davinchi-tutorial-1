@@ -1,7 +1,7 @@
 package edu.tutorial.davinchi1.product.application.command.update;
 
 import edu.tutorial.davinchi1.common.mediator.RequestHandler;
-import edu.tutorial.davinchi1.common.util.FileUtils;
+import edu.tutorial.davinchi1.common.infrastructure.util.FileUtils;
 import edu.tutorial.davinchi1.product.domain.entity.Product;
 import edu.tutorial.davinchi1.product.domain.port.ProductRepository;
 import lombok.RequiredArgsConstructor;

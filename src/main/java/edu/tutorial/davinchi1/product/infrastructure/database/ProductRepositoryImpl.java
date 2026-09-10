@@ -1,5 +1,7 @@
 package edu.tutorial.davinchi1.product.infrastructure.database;
 
+import edu.tutorial.davinchi1.common.domain.PaginationQuery;
+import edu.tutorial.davinchi1.common.domain.PaginationResult;
 import edu.tutorial.davinchi1.product.domain.entity.Product;
 import edu.tutorial.davinchi1.product.domain.port.ProductRepository;
 import edu.tutorial.davinchi1.product.infrastructure.database.entity.ProductEntity;
@@ -9,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -49,11 +53,21 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public List<Product> findAll() {
-        return repository.findAll().stream().map(productEntityMapper::mapToProduct).toList();
+    public PaginationResult<Product> findAll(PaginationQuery query) {
+//        return repository.findAll().stream().map(productEntityMapper::mapToProduct).toList();
 //        return products.stream()
 //                .map(productEntityMapper::mapToProduct)
 //                .toList();
+        PageRequest pageRequest = PageRequest.of(query.getPage(), query.getSize());
+
+        Page<ProductEntity> page= repository.findAll(pageRequest);
+
+        return new PaginationResult<>(
+                page.getContent().stream().map(productEntityMapper::mapToProduct).toList(),
+                page.getNumber(),
+                page.getSize(),
+                page.getTotalPages(),
+                (int) page.getTotalElements());
     }
 
     @CacheEvict(value = "products", key = "#id")

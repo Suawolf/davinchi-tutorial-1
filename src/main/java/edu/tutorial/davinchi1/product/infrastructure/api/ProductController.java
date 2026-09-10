@@ -1,5 +1,7 @@
 package edu.tutorial.davinchi1.product.infrastructure.api;
 
+import edu.tutorial.davinchi1.common.domain.PaginationQuery;
+import edu.tutorial.davinchi1.common.domain.PaginationResult;
 import edu.tutorial.davinchi1.common.mediator.Mediator;
 import edu.tutorial.davinchi1.product.application.command.create.CreateProductRequest;
 import edu.tutorial.davinchi1.product.application.command.create.CreateProductResponse;
@@ -14,6 +16,7 @@ import edu.tutorial.davinchi1.product.infrastructure.api.dto.CreateProductDto;
 import edu.tutorial.davinchi1.product.infrastructure.api.dto.ProductDto;
 import edu.tutorial.davinchi1.product.infrastructure.api.dto.UpdateProductDto;
 import edu.tutorial.davinchi1.product.infrastructure.api.mapper.ProductMapper;
+import edu.tutorial.davinchi1.product.infrastructure.database.repository.QueryProductRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -36,21 +39,38 @@ public class ProductController implements ProductApi {
 
     private final ProductMapper productMapper;
 
+    private final QueryProductRepository repository;
+
     //  {{BASE URL}} = http://localhost:8080/api/v1
     //  {{BASE URL}}/products?pageSize=5
     @Operation(summary = "Get all products", description = "Get all products")
     @GetMapping("")
-    public ResponseEntity<List<ProductDto>> getAllProducts(@RequestParam(required = false) String pageSize) {
+    public ResponseEntity<PaginationResult<ProductDto>> getAllProducts(
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "5") int pageSize) {
 
         log.info("Getting all products...");
 
-        GetAllProductResponse response = mediator.dispatch(new GetAllProductRequest());
+        GetAllProductResponse response = mediator.dispatch(new GetAllProductRequest(new PaginationQuery(pageNumber, pageSize)));
 
-        List<ProductDto> productDtos = response.getProducts().stream().map(productMapper::mapToProductDto).toList();
+//        List<ProductDto> productDtos = response.getProducts().stream().map(productMapper::mapToProductDto).toList();
+//
+//        log.info("A total of {} products found!", productDtos.size());
 
-        log.info("A total of {} products found!", productDtos.size());
+//        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+//        Page<ProductEntity> page = repository.findAll(pageRequest);
 
-        return ResponseEntity.ok(productDtos);
+        PaginationResult<Product> productsPage = response.getProductsPage();
+
+        PaginationResult<ProductDto> productDtoPaginationResult = new PaginationResult<>(
+                productsPage.getContent().stream().map(productMapper::mapToProductDto).toList(),
+                productsPage.getPage(),
+                productsPage.getSize(),
+                productsPage.getTotalPages(),
+                productsPage.getTotalElements()
+        );
+
+        return ResponseEntity.ok(productDtoPaginationResult);
     }
 
     //  {{BASE URL}}/products/1

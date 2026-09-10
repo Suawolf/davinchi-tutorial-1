@@ -2,6 +2,8 @@ package edu.tutorial.davinchi1.product.infrastructure.database.repository;
 
 import edu.tutorial.davinchi1.product.domain.entity.Product;
 import edu.tutorial.davinchi1.product.infrastructure.database.entity.ProductEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -27,6 +29,7 @@ public interface QueryProductRepository extends JpaRepository<ProductEntity,Long
 
     long countByPriceBetween(Double priceStart, Double priceEnd);
 
+    Page<ProductEntity> findAll(Pageable pageable);
 
 
 }

@@ -1,4 +1,4 @@
-package edu.tutorial.davinchi1.common.config;
+package edu.tutorial.davinchi1.common.infrastructure.config;
 
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Configuration;
